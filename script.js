@@ -1,3 +1,8 @@
+const rock = document.getElementById("rock");
+const paper = document.getElementById("paper");
+const scissors = document.getElementById("scissors");
+const results = document.getElementById("results");
+
 let humanScore = 0;
 let computerScore = 0;
 
@@ -8,38 +13,32 @@ function getComputerChoice() {
   else return "Scissors";
 }
 
-function getHumanChoice() {
-  let choice = prompt("Rock, Paper, or Scissors?").toLowerCase();
-  if (choice === "rock") return "Rock";
-  else if (choice === "paper") return "Paper";
-  else if (choice === "scissors") return "Scissors";
-  else {
-    console.log("Invalid choice. Please type Rock, Paper, or Scissors.");
-    return getHumanChoice();
-  }
-}
-
 function playRound(humanChoice, computerChoice) {
-  console.log(`You picked ${humanChoice}.`);
-  console.log(`Computer picked ${computerChoice}.`);
+  let roundResult = "";
 
   if (humanChoice === computerChoice) {
-    console.log("It's a draw!");
+    roundResult = "It's a draw!";
   } else if (
     (humanChoice === "Rock" && computerChoice === "Scissors") ||
     (humanChoice === "Paper" && computerChoice === "Rock") ||
     (humanChoice === "Scissors" && computerChoice === "Paper")
   ) {
-    console.log("You win this round!");
+    roundResult = "You win this round!";
     humanScore++;
   } else {
-    console.log("You lose this round!");
+    roundResult = "You lose this round!";
     computerScore++;
   }
 
-  console.log(`Score — You: ${humanScore}, Computer: ${computerScore}`);
+  results.textContent = `
+    You picked ${humanChoice}! and 
+    Computer picked ${computerChoice}!
+    ${roundResult}  -
+    You: ${humanScore}  Computer: ${computerScore}
+  `;
 }
-
-const humanSelection = getHumanChoice();
-const computerSelection = getComputerChoice();
-playRound(humanSelection, computerSelection);
+rock.addEventListener("click", () => playRound("Rock", getComputerChoice()));
+paper.addEventListener("click", () => playRound("Paper", getComputerChoice()));
+scissors.addEventListener("click", () =>
+  playRound("Scissors", getComputerChoice())
+);
